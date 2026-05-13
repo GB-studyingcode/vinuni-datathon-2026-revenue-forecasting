@@ -1,0 +1,32 @@
+project:
+  name: vinuni-datathon-2026-revenue-forecasting
+  target: Revenue
+  date_col: Date
+  known_future_features:
+    - COGS
+
+paths:
+  train: data/raw/sales.csv
+  sample_submission: data/raw/sample_submission.csv
+  output_submission: outputs/submission.csv
+
+validation:
+  strategy: time_series_holdout
+  holdout_start: '2022-01-01'
+  holdout_end: '2022-12-31'
+
+features:
+  lags: [1, 7, 14, 30]
+  rolling_windows: [7, 14, 30]
+  holiday_country: VN
+
+model:
+  name: lightgbm
+  params:
+    objective: regression
+    n_estimators: 1200
+    learning_rate: 0.03
+    num_leaves: 31
+    subsample: 0.9
+    colsample_bytree: 0.9
+    random_state: 42
